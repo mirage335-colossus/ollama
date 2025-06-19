@@ -18,6 +18,12 @@ git config --global checkout.workers -1
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git fetch --all --prune
 
+#git show-ref
+#git branch
+#git branch -r
+#git branch -a
+#git log --oneline --graph --decorate --all
+#git fsck --no-reflogs --unreachable
 
 
 
