@@ -219,6 +219,8 @@ cd ollama
 ~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all
 #~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all --prune
 
+git checkout --track origin/mirage335/llama_3_1_nemotron_ultra_253b_v1
+
 cd /workspace/ollama
 
 
