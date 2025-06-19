@@ -209,12 +209,15 @@ unset ubiquitousBashID || true
 
 
 # ollama specific script...
+
+export ubDEBUG=false
+
 mkdir -p /workspace/history
 cd /workspace/history
-_gitBest clone --no-single-branch git@github.com:mirage335-colossus/ollama.git
+~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest clone --no-single-branch git@github.com:mirage335-colossus/ollama.git
 cd ollama
-_gitBest fetch --all
-#_gitBest fetch --all --prune
+~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all
+#~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all --prune
 
 cd /workspace/ollama
 
