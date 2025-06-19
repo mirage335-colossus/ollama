@@ -11,12 +11,12 @@ git config --global checkout.workers -1
 
 
 
-# ollama specific dependencies...
+# ollama specific script...
 
+#mirage335/llama_3_1_nemotron_ultra_253b_v1
 
-
-
-
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch --all --prune
 
 
 
