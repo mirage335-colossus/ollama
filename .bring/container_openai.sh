@@ -15,8 +15,8 @@ git config --global checkout.workers -1
 
 #mirage335/llama_3_1_nemotron_ultra_253b_v1
 
-git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-git fetch --all --prune
+#git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+#git fetch --all --prune
 
 #git show-ref
 #git branch
@@ -29,10 +29,10 @@ git fetch --all --prune
 
 # Comment out if ubiquitous_bash proves desirable specifically WebUI Codex ollama ...
 
-uptime
-exit 0
-sleep infinity
-exit 1
+#uptime
+#exit 0
+#sleep infinity
+#exit 1
 
 
 
@@ -204,5 +204,26 @@ export ubDEBUG=true
 
 unset ubiquitousBashID || true
 
+
+
+
+
+# ollama specific script...
+mkdir -p /workspace/history
+cd /workspace/history
+_gitBest clone --no-single-branch git@github.com:mirage335-colossus/ollama.git
+cd ollama
+_gitBest fetch --all
+#_gitBest fetch --all --prune
+
+cd /workspace/ollama
+
+
+
+
+
+
+
+cd /workspace/ollama
 uptime
 echo ' request: _setup_codex ; _setup_ollama ; apt-get install ... _getMinimal_special comments... '
