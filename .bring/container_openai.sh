@@ -123,6 +123,30 @@ cd ~/core/infrastructure/ubiquitous_bash
 [[ ! -e /workspace/ubiquitous_bash ]] && cp -a ~/core/infrastructure/ubiquitous_bash /workspace/ubiquitous_bash
 
 
+
+
+
+# ollama specific script...
+
+mkdir -p /workspace/history
+cd /workspace/history
+~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest clone --no-single-branch git@github.com:mirage335-colossus/ollama.git
+cd ollama
+~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all
+#~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all --prune
+
+#git checkout --track origin/mirage335/llama_3_1_nemotron_ultra_253b_v1
+#git switch --track mirage335/llama_3_1_nemotron_ultra_253b_v1
+git switch mirage335/llama_3_1_nemotron_ultra_253b_v1
+
+cd /workspace/ollama
+
+
+
+
+
+
+
 # Certificates installation by '_setupUbiquitous' may otherwise cause dpkg lock multi-threading/concurrency collision.
 sleep 1
 wait
@@ -211,17 +235,6 @@ unset ubiquitousBashID || true
 # ollama specific script...
 
 export ubDEBUG=false
-
-mkdir -p /workspace/history
-cd /workspace/history
-~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest clone --no-single-branch git@github.com:mirage335-colossus/ollama.git
-cd ollama
-~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all
-#~/core/infrastructure/ubiquitous_bash/ubiquitous_bash.sh _gitBest fetch --all --prune
-
-#git checkout --track origin/mirage335/llama_3_1_nemotron_ultra_253b_v1
-#git switch --track mirage335/llama_3_1_nemotron_ultra_253b_v1
-git switch mirage335/llama_3_1_nemotron_ultra_253b_v1
 
 cd /workspace/ollama
 
