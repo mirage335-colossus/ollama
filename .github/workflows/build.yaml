@@ -292,7 +292,7 @@ jobs:
     strategy:
       matrix:
         suffix: ['', '-rocm']
-    runs-on: ubuntu-latest
+    runs-on: linux
     environment: release
     needs: [docker-build-push]
     steps:
