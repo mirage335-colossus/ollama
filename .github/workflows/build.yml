@@ -46,7 +46,7 @@ jobs:
           - preset: 'CPU'
             os: windows
             arch: amd64
-    runs-on: windows-2022
+    runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
     environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -118,7 +118,7 @@ jobs:
 
   windows-build:
     needs: setup-environment
-    runs-on: windows-2022
+    runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
     environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -142,10 +142,10 @@ jobs:
           VCToolsRedistDir: stub
       - uses: actions/upload-artifact@v4
         with:
-          name: build-windows-amd64
+          name: build-${{ matrix.os }}-${{ matrix.arch }}
           path: |
-            dist\windows-amd64\*.exe
-            dist\windows-amd64-app.exe
+            dist\${{ matrix.os }}-${{ matrix.arch }}\*.exe
+            dist\${{ matrix.os }}-${{ matrix.arch }}-app.exe
 
   windows-package:
     needs: [windows-depends, windows-build]
@@ -186,7 +186,7 @@ jobs:
           - os: linux
             arch: amd64
             target: rocm
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
     environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -245,7 +245,7 @@ jobs:
               CGO_CXXFLAGS
               GOFLAGS
               FLAVOR=rocm
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
     environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
