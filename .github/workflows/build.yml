@@ -13,6 +13,7 @@ env:
 jobs:
   setup-environment:
     runs-on: ubuntu-latest
+    environment: release
     outputs:
       GOFLAGS: ${{ steps.goflags.outputs.GOFLAGS }}
     steps:
@@ -41,6 +42,7 @@ jobs:
             os: windows
             arch: amd64
     runs-on: windows-2022
+    environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
     steps:
@@ -112,6 +114,7 @@ jobs:
   windows-build:
     needs: setup-environment
     runs-on: windows-2022
+    environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
     steps:
@@ -142,6 +145,7 @@ jobs:
   windows-package:
     needs: [windows-depends, windows-build]
     runs-on: windows-2022
+    environment: release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -178,6 +182,7 @@ jobs:
             arch: amd64
             target: rocm
     runs-on: ubuntu-latest
+    environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
     steps:
@@ -235,6 +240,7 @@ jobs:
               GOFLAGS
               FLAVOR=rocm
     runs-on: ubuntu-latest
+    environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
     steps:
@@ -270,6 +276,7 @@ jobs:
       matrix:
         suffix: ['', '-rocm']
     runs-on: ubuntu-latest
+    environment: release
     steps:
       - uses: docker/login-action@v3
         with:
@@ -300,6 +307,7 @@ jobs:
   release:
     needs: [windows-package, linux-build]
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: write
     env:
