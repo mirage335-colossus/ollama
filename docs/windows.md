@@ -75,8 +75,9 @@ The Ollama Windows installer registers an Uninstaller application.  Under `Add o
 
 The easiest way to install Ollama on Windows is to use the `OllamaSetup.exe`
 installer. It installs in your account without requiring Administrator rights.
-We update Ollama regularly to support the latest models, and this installer will
-help you keep up to date.
+The official release of Ollama uses this installer to keep the application up to
+date automatically. This fork disables the automatic update feature, so you will
+need to download newer versions manually.
 
 If you'd like to install or integrate Ollama as a service, a standalone
 `ollama-windows-amd64.zip` zip file is available containing only the Ollama CLI
