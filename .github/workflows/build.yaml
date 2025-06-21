@@ -5,6 +5,12 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      no-cache:
+        description: Disable Docker cache
+        type: boolean
+        required: false
+        default: false
 
 env:
   CGO_CFLAGS: '-O3'
@@ -211,7 +217,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
+      - id: build-push-cache
+        if: ${{ github.event.inputs['no-cache'] != 'true' }}
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.os }}/${{ matrix.arch }}
@@ -223,6 +231,20 @@ jobs:
           outputs: type=local,dest=dist/${{ matrix.os }}-${{ matrix.arch }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/ollama:latest
           cache-to: type=inline
+      - id: build-push-nocache
+        if: ${{ github.event.inputs['no-cache'] == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.os }}/${{ matrix.arch }}
+          target: ${{ matrix.target }}
+          build-args: |
+            GOFLAGS=${{ env.GOFLAGS }}
+            CGO_CFLAGS=${{ env.CGO_CFLAGS }}
+            CGO_CXXFLAGS=${{ env.CGO_CXXFLAGS }}
+          outputs: type=local,dest=dist/${{ matrix.os }}-${{ matrix.arch }}
+      - id: build-push
+        run: echo "digest=${{ steps.build-push-cache.outputs.digest || steps.build-push-nocache.outputs.digest }}" >>"$GITHUB_OUTPUT"
       - run: |
           for COMPONENT in bin/* lib/ollama/*; do
             case "$COMPONENT" in
@@ -276,7 +298,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - id: build-push
+      - id: build-push-cache
+        if: ${{ github.event.inputs['no-cache'] != 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -285,6 +308,16 @@ jobs:
           outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/ollama,push-by-digest=true,name-canonical=true,push=true
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/ollama:latest
           cache-to: type=inline
+      - id: build-push-nocache
+        if: ${{ github.event.inputs['no-cache'] == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.os }}/${{ matrix.arch }}
+          build-args: ${{ matrix.build-args }}
+          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/ollama,push-by-digest=true,name-canonical=true,push=true
+      - id: build-push
+        run: echo "digest=${{ steps.build-push-cache.outputs.digest || steps.build-push-nocache.outputs.digest }}" >>"$GITHUB_OUTPUT"
       - run: |
           mkdir -p ${{ matrix.os }}-${{ matrix.arch }}
           echo "${{ steps.build-push.outputs.digest }}" >${{ matrix.os }}-${{ matrix.arch }}${{ matrix.suffix }}.txt
