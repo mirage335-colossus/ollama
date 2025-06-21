@@ -24,7 +24,9 @@ import (
 )
 
 var (
-	UpdateCheckURLBase  = "https://ollama.com/api/update"
+	// UpdateCheckURLBase is intentionally left blank in this fork to
+	// disable automatic updates to the upstream project.
+	UpdateCheckURLBase  = ""
 	UpdateDownloaded    = false
 	UpdateCheckInterval = 60 * 60 * time.Second
 )
@@ -200,6 +202,10 @@ func cleanupOldDownloads() {
 }
 
 func StartBackgroundUpdaterChecker(ctx context.Context, cb func(string) error) {
+	if UpdateCheckURLBase == "" {
+		slog.Info("automatic update check disabled")
+		return
+	}
 	go func() {
 		// Don't blast an update message immediately after startup
 		// time.Sleep(30 * time.Second)
