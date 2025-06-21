@@ -201,9 +201,6 @@ jobs:
           - os: linux
             arch: amd64
             target: archive
-          - os: linux
-            arch: amd64
-            target: rocm
     runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     environment: release
     needs: setup-environment
@@ -258,7 +255,6 @@ jobs:
               lib/ollama/*.so)          echo $COMPONENT >>ollama-${{ matrix.os }}-${{ matrix.arch }}.tar.in ;;
               lib/ollama/cuda_v11)      echo $COMPONENT >>ollama-${{ matrix.os }}-${{ matrix.arch }}.tar.in ;;
               lib/ollama/cuda_v12)      echo $COMPONENT >>ollama-${{ matrix.os }}-${{ matrix.arch }}.tar.in ;;
-              lib/ollama/rocm)          echo $COMPONENT >>ollama-${{ matrix.os }}-${{ matrix.arch }}-rocm.tar.in ;;
             esac
           done
         working-directory: dist/${{ matrix.os }}-${{ matrix.arch }}
@@ -283,14 +279,6 @@ jobs:
               CGO_CFLAGS
               CGO_CXXFLAGS
               GOFLAGS
-          - os: linux
-            arch: amd64
-            suffix: '-rocm'
-            build-args: |
-              CGO_CFLAGS
-              CGO_CXXFLAGS
-              GOFLAGS
-              FLAVOR=rocm
     runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     environment: release
     needs: setup-environment
@@ -344,7 +332,7 @@ jobs:
   docker-merge-push:
     strategy:
       matrix:
-        suffix: ['', '-rocm']
+        suffix: ['']
     runs-on: linux
     environment: release
     needs: [docker-build-push]
