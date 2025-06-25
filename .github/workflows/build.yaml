@@ -55,7 +55,7 @@ jobs:
             preset: 'ROCm 6'
             install: https://download.amd.com/developer/eula/rocm-hub/AMD-Software-PRO-Edition-24.Q4-WinSvr2022-For-HIP.exe
             rocm-version: '6.2'
-    runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
+    runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2022') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     environment: release
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -132,7 +132,7 @@ jobs:
       matrix:
         os: [windows]
         arch: [amd64]
-    runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
+    runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2022') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     environment: release
     needs: [setup-environment]
     env:
@@ -201,7 +201,7 @@ jobs:
           #- os: linux
             #arch: amd64
             #target: archive
-    #runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
+    #runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2022') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     #environment: release
     #needs: setup-environment
     #env:
@@ -279,7 +279,7 @@ jobs:
               #CGO_CFLAGS
               #CGO_CXXFLAGS
               #GOFLAGS
-    #runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2019') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
+    #runs-on: ${{ (matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch)) || (matrix.os == 'windows' && 'windows-2022') || (matrix.os == 'linux' && 'ubuntu-latest-m') || matrix.os }}
     #environment: release
     #needs: setup-environment
     #env:
