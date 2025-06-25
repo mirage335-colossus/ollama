@@ -2,7 +2,7 @@
 
 ## How can I upgrade Ollama?
 
-Ollama on macOS and Windows will automatically download updates. Click on the taskbar or menubar item and then click "Restart to update" to apply the update. Updates can also be installed by downloading the latest version [manually](https://ollama.com/download/).
+Ollama on macOS will automatically download updates. This fork disables automatic updates on Windows. Click on the menubar item and then click "Restart to update" on macOS, or download the latest version [manually](https://ollama.com/download/) to upgrade.
 
 On Linux, re-run the install script:
 
