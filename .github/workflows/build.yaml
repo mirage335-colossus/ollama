@@ -10,7 +10,7 @@ on:
         description: Disable Docker cache
         type: boolean
         required: false
-        default: false
+        default: true
 
 env:
   CGO_CFLAGS: '-O3'
